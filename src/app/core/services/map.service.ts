@@ -37,34 +37,34 @@ export class MapService {
   showDataPoints() {
     const graphDiv = document.getElementById('graph-dom');
     let popUp = new mapboxgl.Popup({
-      closeButton: true,
+      closeButton: false,
       closeOnClick: false,
     });
 
     this.map.addLayer({
-      id: 'sensors-bbsddb',
+      id: 'ph-mountain-list-027fow',
       type: 'circle',
       source: {
         type: 'vector',
-        url: 'mapbox://jadurani.asse9xyo',
+        url: 'mapbox://jadurani.22cu7zmz',
       },
-      'source-layer': 'sensors-bbsddb',
+      'source-layer': 'ph-mountain-list-027fow',
       paint: {
-        'circle-color': '#4264fb',
+        'circle-color': '#6C8B7F',
         'circle-radius': 6,
         'circle-stroke-width': 1,
-        'circle-stroke-color': '#ffffff',
+        'circle-stroke-color': '#A3CCBD',
       },
     });
 
     const _this = this;
-    this.map.on('mouseover', 'sensors-bbsddb', (e) => {
+    this.map.on('mouseover', 'ph-mountain-list-027fow', (e) => {
       _this.map.getCanvas().style.cursor = 'pointer';
-
+      console.log(e.features[0]);
       const coordinates = (e.features[0].geometry as any).coordinates.slice();
       const location = e.features[0].properties.location;
-      const stationID = e.features[0].properties.station_id;
-      const rainValueSum = e.features[0].properties.rain_value_sum;
+      const name = e.features[0].properties.name;
+      const elevation = e.features[0].properties.elevation;
 
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -75,15 +75,16 @@ export class MapService {
         .setHTML(
           `
           <div style="color: #333333;">
-            <div><strong>#${stationID} - ${location}</strong></div>
-            <div>Rain Value Sum: ${rainValueSum}</div>
+            <div><strong>Mt. ${name}</strong></div>
+            <div>Location: ${location}</div>
+            <div>Elevation: ${elevation} MASL</div>
           </div>
         `
         )
         .addTo(_this.map);
     });
 
-    this.map.on('click', 'sensors-bbsddb', function (e) {
+    this.map.on('click', 'ph-mountain-list-027fow', function (e) {
       _this.map.flyTo({
         center: (e.features[0].geometry as any).coordinates.slice(),
         zoom: 11,
@@ -97,7 +98,7 @@ export class MapService {
 
     popUp.on('close', () => (_this.graphShown = false));
 
-    this.map.on('mouseleave', 'sensors-bbsddb', function () {
+    this.map.on('mouseleave', 'ph-mountain-list-027fow', function () {
       if (_this.graphShown) return;
 
       _this.map.getCanvas().style.cursor = '';
