@@ -9,7 +9,7 @@ import { fromEvent } from 'rxjs';
 })
 export class MapService {
   map: mapboxgl.Map;
-  style = 'mapbox://styles/jadurani/ckn56hvjq09fb17p6cmnve685';
+  style = 'mapbox://styles/jadurani/cksd49h6t67oj18s3myu826h0';
   lat = 12.599512;
   lng = 120.984222;
   zoom = 5;
